@@ -30,6 +30,7 @@ MuseScore {
 
     FileIO {
         id: asciiTabWriter
+        source: homePath() + "/" + curScore.scoreName + "_asciitab.txt"
         onError: console.log(msg + "\nFilename = " + asciiTabWriter.source);
     }
 
@@ -75,18 +76,41 @@ MuseScore {
             console.log("Start");   
             console.log("Path: " + filePath);
             console.log("Filename: " + curScore.scoreName + ".mscz");
-            directorySelectDialog.open();
+            //directorySelectDialog.open();
+            writeTab();
         }      
     }
 
-    function writeTab(fname) {
+    //function writeTab(fname) {
+    function writeTab() {
         // Generate ASCII tab
         processTab();
 
         // Write to file
-        asciiTabWriter.source = fname;
-        console.log("Writing to: " + fname);
-        asciiTabWriter.write(textContent);   
+        //asciiTabWriter.source = fname;
+        //console.log("Writing to: " + fname);
+        //asciiTabWriter.write(textContent);
+        var msg = "";
+        var rc = asciiTabWriter.write(textContent);
+        if (rc) {
+              msg = "ASCII tab saved in " + asciiTabWriter.source;
+              console.log(msg);
+              //txtSaved.text = msg;
+              //return [true, outfile.source];
+              // Cannot show message box from JS
+              //alert("Alert text");
+              //if (Qt.platform.os=="windows") {
+              //    proc.start("notepad " + outfile.source); // Windows
+              //}
+        } else {
+              msg = "Could not write ASCII tab to " + asciiTabWriter.source;
+              console.log(msg);
+              //txtSaved.text = msg;
+              //return [false, outfile.source];
+        }
+        
+        
+           
 
         // Done; quit
         console.log("Done");
