@@ -1,0 +1,2 @@
+# ms-plugins
+MuseScore plugins
